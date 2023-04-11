@@ -13,11 +13,11 @@
       </div>
     </div>
   @endif
-<div class="flex justify-center" style="position: fixed;">
+<div class="justify-center" style="position: fixed;">
   <div class="w-screen row">
       <div style="overflow: auto; height: 65%" class="column bg-gray-50 rounded-lg mt-8 ml-6 shadow-lg" id="felsorolas">
                 @foreach ($questions as $question)
-                        <div class="questionBtn text-2xl" data-id="{{ $question->kerdes_id }}">
+                        <div class="questionBtn question-hover text-2xl" data-id="{{ $question->kerdes_id }}">
                           {{ $question->kerdes_szovege }}
                         </div> 
                 @endforeach

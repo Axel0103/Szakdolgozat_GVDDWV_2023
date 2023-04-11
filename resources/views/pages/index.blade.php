@@ -14,7 +14,11 @@
                     </form>
                 @endif
             </div>
-        </div>
-
+        </div>  
     </div>
+    <div>
+        <main class="bg-white mx-auto p-8 my-10 rounded-lg weather-container">
+            <div class="mx-1 weather-content" id="ww_f8bc09ad1efd3" v='1.20' loc='id' a='{"t":"horizontal","lang":"en","ids":["wl9999"],"cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_sot":"celsius","sl_ics":"one_a","font":"Arial"}'>Weather for the Following Location: <a href="https://2ua.org/hun/eger/map/" id="ww_f8bc09ad1efd3_u" target="_blank">Eger map, Hungary</a></div><script async src="https://srv2.weatherwidget.org/js/?id=ww_f8bc09ad1efd3"></script>    
+        </main>  
+    </div> 
 @endsection
