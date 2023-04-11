@@ -182137,3 +182137,27 @@ video {
   }
 }
 
+.background-container {
+  background-color: #c7d8c6 !important;
+}
+
+.letter {
+  color: #ff5035 !important;
+}
+
+div.letter a {
+  color: #ff5035 !important;
+  font-weight: bolder;
+}
+
+.weather-container {
+  max-width:fit-content;  
+}
+
+.weather-content {
+  margin: auto;
+}
+
+.question-hover:hover {
+  cursor: pointer;
+}
