@@ -1,7 +1,7 @@
 const { random } = require("lodash");
 
 $(document).ready(function(){
-   $("#ButtonUpdate").click(function(){
+  $("#ButtonUpdate").click(function(){
     const answerIds = [];
     const answers = [];
     let inputs = $(".InputUpdate");
@@ -50,7 +50,7 @@ $(document).ready(function(){
       let randNum =  response.kerdoivek[getRndInt(0,response.kerdoivek.length)]['kerdoiv_id'];
       let url = "http://127.0.0.1:8000/kitolt/"+randNum;
       window.location.href = url; 
-   },
+  },
     error: function(resopone)
     {
       $('#response').text(response.error);
@@ -181,7 +181,7 @@ $(document).ready(function(){
               parseFloat(response.valaszok[4]['fiatalok'])
             ]
         },
-         {
+        {
             name: 'Középkorú',
             data: [
               parseFloat(response.valaszok[0]['kozepkoruak']),
@@ -192,7 +192,7 @@ $(document).ready(function(){
             ]
     
         },
-         {
+        {
             name: 'Idős',
             data: [
               parseFloat(response.valaszok[0]['idosek']),
@@ -203,7 +203,7 @@ $(document).ready(function(){
             ]
     
         },
-         ]
+        ]
     });
       
     }
@@ -269,7 +269,7 @@ $(document).ready(function(){
               parseFloat(response.valaszok[4]['ferfi'])
             ]
         },
-         {
+        {
             name: 'Nők',
             data: [
               parseFloat(response.valaszok[0]['no']),
@@ -280,7 +280,7 @@ $(document).ready(function(){
             ]
     
         },
-         {
+        {
             name: 'Egyéb',
             data: [
               parseFloat(response.valaszok[0]['egyeb']),
@@ -291,7 +291,7 @@ $(document).ready(function(){
             ]
     
         },
-         ]
+        ]
     });
       
     }
