@@ -8,6 +8,7 @@ use App\Models\Kerdesek;
 use App\Models\Valaszok;
 use Symfony\Component\Console\Question\Question;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class SettingsController extends Controller
 {
@@ -19,6 +20,17 @@ class SettingsController extends Controller
     public function index()
     {
         $questionnaires = Kerdoiv::all();
+        $loggedInUser = Auth::user();
+        if($loggedInUser != null && $loggedInUser->authority != 'admin') {
+            $filteredArray = [];
+            $userId = $loggedInUser->id;
+            foreach($questionnaires as &$value) {
+                if($value->created_by == $userId) {
+                    array_push($filteredArray, $value);
+                }
+            }
+            $questionnaires = $filteredArray;
+        }
 
         return view('pages.settings',[
             'questionnaires' => $questionnaires
@@ -47,9 +59,11 @@ class SettingsController extends Controller
             'kerdoiv_nev' => 'required'
         ]);
 
-        $question = Kerdoiv::create([
-            'kerdoiv_nev' => $request ->input('kerdoiv_nev')
-        ]);
+        $question = new Kerdoiv;
+        $question->kerdoiv_nev = $request->input('kerdoiv_nev');
+        $question->created_by = Auth::user()->id;
+        $question->save();
+
         $nev = $request ->input('kerdoiv_nev');
         
         $id = DB::getPdo()->lastInsertId();

@@ -16,6 +16,8 @@ class CreateKerdoivsTable extends Migration
         Schema::create('kerdoivs', function (Blueprint $table) {
             $table->increments('kerdoiv_id');
             $table->string('kerdoiv_nev');
+            $table->bigInteger('created_by')->unsigned();
+            $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

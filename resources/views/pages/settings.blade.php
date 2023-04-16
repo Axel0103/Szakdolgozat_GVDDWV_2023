@@ -17,7 +17,7 @@
   <div class="p-5 text-center w-1/2 m-auto">
     <a href="/create" class="text-2xl text-black">
           <div class="bg-green-600 shadow-lg text-white font-light rounded-lg py-3 px-6 transition hover:bg-green-500 hover:text-white">
-           +  Új kérdőív
+          +  Új kérdőív
           </div>
     </a>
   </div>
@@ -63,7 +63,7 @@
                        </td>
                       </tr>
                       @empty
-                        Nincs kérdés
+                      <p class="w-full p-5 font-light text-lg lg:text-3xl text-center">Ön még nem hozott létre kérdőívet!</p>
                       </div>
                       @endforelse
                     </tbody>
