@@ -40,7 +40,7 @@
                 @forelse ($answers as $answer)
                 <tr class="pb-10 font-light">
                   <td>
-                    <input type="text" class="InputProbaUpdate" data-id = "{{ $answer->valaszok_id }}" name="szoveg{{ $answer->valaszok_id }}" value="{{ $answer->valasz }}" class="rounded mt-5 mb-3 p-3 text" size="80" required>
+                    <input type="text" class="InputUpdate" data-id = "{{ $answer->valaszok_id }}" name="szoveg{{ $answer->valaszok_id }}" value="{{ $answer->valasz }}" class="rounded mt-5 mb-3 p-3 text" size="80" required>
                     <br>
                     <hr class="pt-5">
                   </td>
@@ -49,7 +49,7 @@
                 @endforelse
               </tbody>
             </table>
-            <button type="button"  class="flex justify-center bg-green-600 rounded-md w-1/3 m-auto py-2 px-2 text-gray-100 text-xl font-light transition hover:bg-green-500" id="ButtonProbaUpdate">Módosít</button>
+            <button type="button"  class="flex justify-center bg-green-600 rounded-md w-1/3 m-auto py-2 px-2 text-gray-100 text-xl font-light transition hover:bg-green-500" id="ButtonUpdate">Módosít</button>
           </div>
       </div>
 

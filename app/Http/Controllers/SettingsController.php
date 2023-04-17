@@ -235,10 +235,8 @@ class SettingsController extends Controller
         return view('pages.update')->with('question', $question)->with('answers',$answers)->with('id',$id)->with('questionnaireId',$questionnaire_id);
     }
 
-    public function updateQuestions(Request $request,$id)
-    {   
-        
-    {   
+    public function updateQuestions(Request $request)
+    {    
         if(isset($_POST['answerIds']) and isset($_POST['answers'])){
             $answerIdArr = $_POST['answerIds'];
             $answerArr = $_POST['answers'];
@@ -251,7 +249,6 @@ class SettingsController extends Controller
             }
             return response()->json(['success'=>'Sikeres módosítás!']);
         }
-    }
     }
 /**
      * Remove the specified resource from storage.
