@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Ápr 14. 12:46
+-- Létrehozás ideje: 2023. Ápr 17. 00:29
 -- Kiszolgáló verziója: 10.4.27-MariaDB
 -- PHP verzió: 8.2.0
 
@@ -54,10 +54,10 @@ CREATE TABLE `kerdeseks` (
 --
 
 INSERT INTO `kerdeseks` (`kerdes_id`, `kerdoiv_id`, `kerdes_szovege`) VALUES
-(18, 12, 'Mennyire tetszik önnek ez a kérdőív portál?'),
-(19, 12, 'Ön szerint mivel lehetne bővíteni a weboldalt?'),
-(20, 13, 'Mennyire kedveli a Laravelt 1-5ös skálán?'),
-(21, 14, 'Mennyire kedveli a Tailwindet 1-5ös skálán?');
+(1, 1, 'Mennyi az idő?'),
+(2, 1, 'Hol van Budapest?'),
+(3, 2, 'Mennyire kedveli a Laravelt 1-5ös skálán?'),
+(4, 3, 'Mennyire tartja ezt a kérdőívet varázslatosnak?');
 
 -- --------------------------------------------------------
 
@@ -67,17 +67,18 @@ INSERT INTO `kerdeseks` (`kerdes_id`, `kerdoiv_id`, `kerdes_szovege`) VALUES
 
 CREATE TABLE `kerdoivs` (
   `kerdoiv_id` int(10) UNSIGNED NOT NULL,
-  `kerdoiv_nev` varchar(255) NOT NULL
+  `kerdoiv_nev` varchar(255) NOT NULL,
+  `created_by` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `kerdoivs`
 --
 
-INSERT INTO `kerdoivs` (`kerdoiv_id`, `kerdoiv_nev`) VALUES
-(12, 'Bemutató kérdőív'),
-(13, 'Laravel kérdőív'),
-(14, 'Tailwind kérdőív');
+INSERT INTO `kerdoivs` (`kerdoiv_id`, `kerdoiv_nev`, `created_by`) VALUES
+(1, 'Próba kérdőív', 2),
+(2, 'Laravel kérdőív', 3),
+(3, 'Bemutató kérdőív', 1);
 
 -- --------------------------------------------------------
 
@@ -107,6 +108,18 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `personal_access_tokens`
 --
 
@@ -129,10 +142,11 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `users` (
-  `id` int(20) UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `authority` varchar(255) NOT NULL DEFAULT 'user',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -141,12 +155,10 @@ CREATE TABLE `users` (
 -- A tábla adatainak kiíratása `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(3, 'admin', 'admin@admin.com', '$2y$10$tG9/9VVW0XCJNk4qbDMLdeMHBEhr2aVXaYKncVnALD2sOhWt1lUGq', '2023-01-18 11:16:48', '2023-01-18 11:16:48'),
-(4, 'user', 'user@user.com', '$2y$10$LmROssRLgDiKviBGM54biu00GHVA9WH8wReXCiPEkt/cMDLO187vK', '2023-01-18 11:57:51', '2023-01-18 11:57:51'),
-(5, 'Próba', 'asd@asd.com', '$2y$10$qqY5yRXhpBsCuRTf2crLVORAKeLuvt6b8FbaKyX0/Wp9M4qpI1E6m', '2023-01-21 17:03:06', '2023-01-21 17:03:06'),
-(6, 'Axel', 'axel01@gmail.com', '$2y$10$nNHFNDIyoXv3PYOoZLgsxO1tsi1tVps2YzqWVh4hUMOS6GMZag4g2', '2023-03-26 12:21:14', '2023-03-26 12:21:14'),
-(9, 'Sanyika', 'sanyika@gmail.com', '$2y$10$hrXv1oMM6tbpBy9J.8Y7T.uOTHxzVevU8IJRUjYa6HOImmnvbKrOa', '2023-03-30 14:57:23', '2023-03-30 14:57:23');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `authority`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin@gmail.com', '$2y$10$rGdoEaPVcz2NUW5JIlo/Ju1PtVqb2.IusPKETAZE6EkI4V.UDq52i', 'admin', NULL, NULL),
+(2, 'Test', 'test@test.com', '$2y$10$doYCsErR518z2DlMi2URvOnDpryrq.xlH8uR8Z3CpJmEW.keEHQ8W', 'user', '2023-04-16 21:24:53', '2023-04-16 21:24:53'),
+(3, 'user', 'user@gmail.com', '$2y$10$KA1SKAX.VUrO77N8Q2H/s.I/aXpairsH3wWtCwkiynHSpby3TWIbm', 'user', '2023-04-16 21:25:49', '2023-04-16 21:25:49');
 
 -- --------------------------------------------------------
 
@@ -171,26 +183,26 @@ CREATE TABLE `valaszoks` (
 --
 
 INSERT INTO `valaszoks` (`valaszok_id`, `kerdes_id`, `valasz`, `fiatalok`, `kozepkoruak`, `idosek`, `ferfi`, `no`, `egyeb`) VALUES
-(86, 18, 'Nem tetszik.', 0, 0, 0, 0, 0, 0),
-(87, 18, 'Kicsit tetszik.', 0, 0, 0, 0, 0, 0),
-(88, 18, 'Tetszik is meg nem is.', 1, 0, 0, 1, 0, 0),
-(89, 18, 'Egész jó.', 1, 1, 1, 1, 2, 0),
-(90, 18, 'Nagyon tetszik.', 2, 0, 1, 2, 0, 1),
-(91, 19, 'Több kérdőív opció.', 2, 0, 1, 2, 0, 1),
-(92, 19, 'Több válasz opció.', 0, 0, 0, 0, 0, 0),
-(93, 19, 'Szebb design.', 0, 1, 0, 0, 1, 0),
-(94, 19, 'Elfelejtett jelszó funkció.', 0, 0, 1, 1, 0, 0),
-(95, 19, 'Minden rendbe van ezzel az oldallal', 2, 0, 0, 1, 1, 0),
-(96, 20, '1', 0, 0, 0, 0, 0, 0),
-(97, 20, '2', 0, 0, 0, 0, 0, 0),
-(98, 20, '3', 0, 0, 0, 0, 0, 0),
-(99, 20, '4', 0, 0, 0, 0, 0, 0),
-(100, 20, '5', 0, 0, 0, 0, 0, 0),
-(101, 21, '1', 0, 0, 0, 0, 0, 0),
-(102, 21, '2', 0, 0, 0, 0, 0, 0),
-(103, 21, '3', 0, 0, 0, 0, 0, 0),
-(104, 21, '4', 0, 0, 0, 0, 0, 0),
-(105, 21, '5', 0, 0, 0, 0, 0, 0);
+(1, 1, '1', 0, 0, 0, 0, 0, 0),
+(2, 1, '2', 0, 0, 0, 0, 0, 0),
+(3, 1, '3', 0, 0, 0, 0, 0, 0),
+(4, 1, '4', 0, 0, 0, 0, 0, 0),
+(5, 1, '5', 0, 0, 0, 0, 0, 0),
+(6, 2, 'Pest megye', 0, 0, 0, 0, 0, 0),
+(7, 2, 'Zala megye', 0, 0, 0, 0, 0, 0),
+(8, 2, 'Borsod Abaúj Zemplén', 0, 0, 0, 0, 0, 0),
+(9, 2, 'Heves', 0, 0, 0, 0, 0, 0),
+(10, 2, 'Pécs', 0, 0, 0, 0, 0, 0),
+(11, 3, '1', 0, 0, 0, 0, 0, 0),
+(12, 3, '2', 0, 0, 0, 0, 0, 0),
+(13, 3, '3', 0, 0, 0, 0, 0, 0),
+(14, 3, '4', 0, 0, 1, 0, 1, 0),
+(15, 3, '5', 1, 0, 0, 1, 0, 0),
+(16, 4, '1', 0, 0, 0, 0, 0, 0),
+(17, 4, '2', 0, 0, 0, 0, 0, 0),
+(18, 4, '3', 0, 0, 0, 0, 0, 0),
+(19, 4, '4', 0, 0, 0, 0, 0, 0),
+(20, 4, '5', 0, 0, 0, 0, 0, 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -214,13 +226,20 @@ ALTER TABLE `kerdeseks`
 -- A tábla indexei `kerdoivs`
 --
 ALTER TABLE `kerdoivs`
-  ADD PRIMARY KEY (`kerdoiv_id`);
+  ADD PRIMARY KEY (`kerdoiv_id`),
+  ADD KEY `kerdoivs_created_by_foreign` (`created_by`);
 
 --
 -- A tábla indexei `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
 
 --
 -- A tábla indexei `personal_access_tokens`
@@ -258,13 +277,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT a táblához `kerdeseks`
 --
 ALTER TABLE `kerdeseks`
-  MODIFY `kerdes_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `kerdes_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `kerdoivs`
 --
 ALTER TABLE `kerdoivs`
-  MODIFY `kerdoiv_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `kerdoiv_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `migrations`
@@ -282,13 +301,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `valaszoks`
 --
 ALTER TABLE `valaszoks`
-  MODIFY `valaszok_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `valaszok_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -299,6 +318,12 @@ ALTER TABLE `valaszoks`
 --
 ALTER TABLE `kerdeseks`
   ADD CONSTRAINT `kerdeseks_kerdoiv_id_foreign` FOREIGN KEY (`kerdoiv_id`) REFERENCES `kerdoivs` (`kerdoiv_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Megkötések a táblához `kerdoivs`
+--
+ALTER TABLE `kerdoivs`
+  ADD CONSTRAINT `kerdoivs_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
 
 --
 -- Megkötések a táblához `valaszoks`
